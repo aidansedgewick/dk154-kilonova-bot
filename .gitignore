@@ -1,4 +1,7 @@
 alertDB
+dk154_kn_targets.egg-info/
+dk154_kn_targets/__pycache__
+
 
 config/fink_credentials.yaml
 config/telegram_users.yaml

@@ -1,8 +1,0 @@
-setup.py
-dk154_kn_targets/__init__.py
-dk154_kn_targets/dk154_kn_listener.py
-dk154_kn_targets/paths.py
-dk154_kn_targets.egg-info/PKG-INFO
-dk154_kn_targets.egg-info/SOURCES.txt
-dk154_kn_targets.egg-info/dependency_links.txt
-dk154_kn_targets.egg-info/top_level.txt
