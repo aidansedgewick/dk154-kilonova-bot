@@ -1,0 +1,5 @@
+alertDB
+
+config/fink_credentials.yaml
+config/telegram_users.yaml
+config/telegram_admin.yaml

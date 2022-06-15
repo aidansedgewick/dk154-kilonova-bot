@@ -1,0 +1,7 @@
+altitude: 2375 # metres, https://www.eso.org/public/teles-instr/lasilla/danish154/
+latitude: 29 15 27 W
+longitude: 70 44 15 S
+
+observatory: "La Silla Observatory" # can use in astropy.coordinates.EarthLocation.of_site()
+
+i_magnitude_limit: 18.5

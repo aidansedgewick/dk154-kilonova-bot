@@ -1,0 +1,8 @@
+filter_lookup: 
+    1: g
+    2: r
+    3: i
+
+sncosmo_filters:
+    1: ztfg
+    2: ztfr
