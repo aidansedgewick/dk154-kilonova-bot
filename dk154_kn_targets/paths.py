@@ -38,4 +38,4 @@ def config_check():
 
 def create_all_paths():
     plot_path.mkdir(exist_ok=True, parents=True)
-    alertDB_path.mkdir(exist_ok=True, parent=True)
+    alertDB_path.mkdir(exist_ok=True, parents=True)
