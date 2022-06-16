@@ -2,7 +2,8 @@ consumer:
     num_alerts: 1 # CURRENTLY IGNORE! number of alerts to get at once 
     timeout: 20 # seconds before stop listening
     topics:
-        - fink_early_sn_candidates_ztf
-        #- fink_kilonova_candidates
+        #- fink_early_sn_candidates_ztf
+        - fink_kn_candidates_ztf
+        #- fink_sn_candidates_ztf
 
 sleep_time: 20
