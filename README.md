@@ -1,6 +1,9 @@
 ## fink kn bot
 
-for now, clone and install as developer - ie.
+clone, cd, and install requiremets:
+python3 -m pip install -r requirements.
+
+for now, install as developer - ie.
 `python3 -m pip install -e .`
 
 get fink_credenials.yaml, telegram_admin.yaml, telegram_users.yaml

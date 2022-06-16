@@ -2,4 +2,4 @@ consumer:
     num_alerts: 1 # CURRENTLY IGNORE! number of alerts to get at once 
     timeout: 20 # seconds before stop listening
 
-sleep_time: 20
+sleep_time: 300

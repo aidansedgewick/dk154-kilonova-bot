@@ -77,7 +77,7 @@ class Listener:
         self.consumer_config = self.listener_config.get("consumer", {})
         topics = self.consumer_config.get("topics", None)
         if topics is None:
-            topics = ['fink_early_sn_candidates_ztf']
+            topics = ['fink_kn_candidates_ztf']
         self.topics = topics
         self.sleep_time = self.listener_config.get("sleep_time", 60)
     

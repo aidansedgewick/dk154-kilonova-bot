@@ -3,8 +3,8 @@ from setuptools import setup, find_packages
 setup(
         name="dk154_kn_targets",
         version="0.1.0",
-        #description="Run suite for DXS reduction",
-        #url="https://github.com/aidansedgewick/dxs",
+        description="telegram kilonova alerts from fink",
+        url="https://github.com/aidansedgewick/dk154-kilonova-bot",
         author="aidan-sedgewick",
         author_email='aidansedgewick@gmail.com',
         license="MIT license",
