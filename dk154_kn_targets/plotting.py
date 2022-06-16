@@ -45,7 +45,6 @@ def plot_lightcurve(
         if len(ulimits) > 0:
             #detections = fdf.query("`tag`=='valid'")
             #ulimits = fdf.query("`tag`!='valid'")
-            logger.info(f"lens {len(detections)}, {len(ulimits)}")
             ax.errorbar(
                 ulimits["jd"].values - jd_diff, ulimits["diffmaglim"].values, 
                 #yerr=ulimits["sigmapsf"].values, 
@@ -145,7 +144,6 @@ def plot_observing_chart(target: SkyCoord, observatory: EarthLocation, t0=None):
         t0 = Time.now()
     time_grid = t0 + np.linspace(0, 24, 24*12) * u.hour
     #target = SkyCoord(ra=ra*u.deg, dec=dec*u.deg)
-    logger.info(target)
     
     altaz_transform = AltAz(obstime=time_grid, location=observatory)
     target_altaz = target.transform_to(altaz_transform)

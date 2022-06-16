@@ -79,8 +79,13 @@ class Listener:
         if topics is None:
             topics = ['fink_kn_candidates_ztf']
         self.topics = topics
+        logger.info(
+            f"listening for topics:\n    "
+            + "\n    ".join(t for t in self.topics)
+        )
         self.sleep_time = self.listener_config.get("sleep_time", 60)
-    
+
+
         with open(_telegram_admin_path, "r") as f:
             telegram_admin = yaml.load(f, Loader=yaml.FullLoader)
         self.token = telegram_admin['http_api']
@@ -89,7 +94,7 @@ class Listener:
         self.test_users = telegram_admin['test_users']
         self.api_url = "https://api.telegram.org"
         self.responded = []
-        
+
         self.datestamp = datetime.datetime.now().strftime("%Y%m%d")
         self.test_mode = test_mode
         test_mode_file = paths.base_path / "test_mode"
@@ -131,16 +136,14 @@ class Listener:
 
         logger.info(f"{len(latest_alerts)} new alerts!")
         for topic, alert, key in latest_alerts:
-            
             self.dump_alert(topic, alert, key)
             new_alert = alert["candidate"]
-            
 
             extra_keys = [
                 'candid', 'objectId', 'timestamp', 'cdsxmatch', 
                 'rf_snia_vs_nonia', 'snn_snia_vs_nonia', 'snn_sn_vs_all', 
                 'mulens', 'roid', 'nalerthist', 'rf_kn_vs_nonkn'
-            ] 
+            ]
             new_alert.update({k: alert[k] for k in extra_keys} )
 
             alert_history = pd.DataFrame(alert["prv_candidates"])
@@ -178,16 +181,16 @@ class Listener:
                 oc_fig, oc_fig_path = self.plot_observing_chart(new_alert, observatory)
                 plt.close(oc_fig)
                 observing_charts.append(oc_fig_path)
-            
+
             alert_timestamp = Time(new_alert['jd'], format="jd").to_value("iso")
             msg = (
                 f"New {topic} alert!\n"
-                f"{alert_timestamp}\n"
-                f"{new_alert['objectId']}\n"
-                f"at ra={new_alert['ra']:.5f}, dec={new_alert['dec']:.4f}\n"
+                f"at {alert_timestamp} {new_alert['objectId']}\n\n"
+                f"ra={new_alert['ra']:.5f}, dec={new_alert['dec']:.4f}\n"
                 f"magnitude {new_alert['magpsf']:.2f}\n"
                 f"{len(alert_history)} alerts total "
-                f"({sum(~np.isfinite(alert_history['magpsf']))} bad/limits)"
+                f"({sum(~np.isfinite(alert_history['magpsf']))} bad/limits)\n\n"
+                f"fink-portal.org/{new_alert['objectId']}"
             )
 
             self.update_users(
