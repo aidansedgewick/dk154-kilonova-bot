@@ -144,7 +144,7 @@ def plot_observing_chart(target: SkyCoord, observatory: EarthLocation, t0=None):
         t0 = Time.now()
     time_grid = t0 + np.linspace(0, 24, 24*12) * u.hour
     #target = SkyCoord(ra=ra*u.deg, dec=dec*u.deg)
-    
+
     altaz_transform = AltAz(obstime=time_grid, location=observatory)
     target_altaz = target.transform_to(altaz_transform)
 
@@ -158,20 +158,18 @@ def plot_observing_chart(target: SkyCoord, observatory: EarthLocation, t0=None):
 
     fig, ax = plt.subplots()
 
-    timestamps = np.array([x.timestamp() for x in time_grid.value])
-    timestamp0 = timestamps[0]
-    timestamps = timestamps - timestamp0
+    timestamps = np.array([x.mjd for x in time_grid])
 
     ax.fill_between(
-        timestamps, -90*u.deg, 90*u.deg, sun_altaz.alt < 0*u.deg, color="0.5", 
+        timestamps, -90*u.deg, 90*u.deg, sun_altaz.alt < 0*u.deg, color="0.7", 
     )
     ax.fill_between(
         timestamps, -90*u.deg, 90*u.deg, sun_altaz.alt < -18*u.deg, color="0.2", 
     )
 
     ax.plot(timestamps, target_altaz.alt.deg, color="b", label="target")
-    ax.plot(timestamps, moon_altaz.alt.deg, color="grey", ls="--", label="moon")
-    ax.plot(timestamps, sun_altaz.alt.deg, color="grey", ls=":", label="sun")
+    ax.plot(timestamps, moon_altaz.alt.deg, color="0.4", ls="--", label="moon")
+    ax.plot(timestamps, sun_altaz.alt.deg, color="0.4", ls=":", label="sun")
     ax.set_ylim(0, 90)
     ax.set_ylabel("Altitude [deg]", fontsize=16)
 
@@ -191,10 +189,22 @@ def plot_observing_chart(target: SkyCoord, observatory: EarthLocation, t0=None):
         title = f"Observing from {observatory.info.name}"
     except Exception as e:
         title = f"Observing from {lon_str} {lon_card} {lat_str} {lat_card}"
+    title = title + f"\n starting at {t0.strftime('%Y-%m-%d %H:%M:%S')} UTC"
     ax.text(
         0.5, 1.0, title, fontsize=14,
         ha="center", va="bottom", transform=ax.transAxes
     )
+
+    iv = 3
+    fiv = 24 / iv
+
+    xticks = round(timestamps[0] * fiv, 0) / fiv + np.arange(0, 1, 1. / fiv)
+    hourmarks = [Time(x, format="mjd").datetime for x in xticks]
+    xticklabels = [hm.strftime("%H:%M") for hm in hourmarks]
+    ax.set_xticks(xticks)
+    ax.set_xticklabels(xticklabels)
+
+    ax.set_xlim(timestamps[0], timestamps[-1])
 
 
     ax2 = ax.twinx()
@@ -202,14 +212,14 @@ def plot_observing_chart(target: SkyCoord, observatory: EarthLocation, t0=None):
     mask = target_altaz.alt > 10. * u.deg
     airmass_time = timestamps[ mask ]
     airmass = 1. / np.cos(target_altaz.zen[ mask ]).value
-
     
     ax2.plot(airmass_time, airmass, color="red")
     ax2.set_ylim(1.0, 4.0)
     ax2.set_ylabel("Airmass", color="red", fontsize=14)
     ax2.tick_params(axis='y', colors='red')
+    ax2.set_xlim(ax.get_xlim())
 
-    xticks = ax.get_xticks()
+
 
     ax.legend()
 

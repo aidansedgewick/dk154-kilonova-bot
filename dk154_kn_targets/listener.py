@@ -229,12 +229,12 @@ class Listener:
         except:
             obs_lat = observatory.lat.signed_dms
             obs_lon = observatory.lat.signed_dms
-            lat_str = f"{round(obs_lat.d)} {round(obs_lat.m)} {round(obs_lat.s)}"
+            lat_str = f"{round(obs_lat.d)}{round(obs_lat.m)}{round(obs_lat.s)}"
             lat_card = "W" if obs_lat.sign < 0 else "E"
-            lon_str = f"{round(obs_lon.d)} {round(obs_lon.m)} {round(obs_lon.s)}"
+            lon_str = f"{round(obs_lon.d)}{round(obs_lon.m)}{round(obs_lon.s)}"
             lon_card = "S" if obs_lon.sign < 0 else "N"
-            suffix = f"Observing from {lon_str} {lon_card} {lat_str} {lat_card}"
-        
+            suffix = f"{lon_str}{lon_card}_{lat_str}{lat_card}"
+
         suffix = suffix.replace(" ", "_")
         fig_path = fig_dir / f"{new_alert['objectId']}_{suffix}.png"
         ii = 0
